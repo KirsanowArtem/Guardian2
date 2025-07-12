@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Мои группы</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <meta http-equiv="refresh" content="30">
 </head>
 <body>
-$END$
+    <div class="container">
+        <h1>Мои группы</h1>
+
+        <div class="groups-grid">
+            {% for group in groups %}
+            <a href="/group/{{ group.id }}" class="group-card">
+                {% if group.photo %}
+                <img src="https://api.telegram.org/file/bot{{BOT_TOKEN}}/{{group.photo}}" alt="{{ group.name }}" class="group-avatar">
+                {% else %}
+                <div class="group-avatar empty-avatar">G</div>
+                {% endif %}
+                <div class="group-info">
+                    <h3>{{ group.name }}</h3>
+                    <p>Участников: {{ group.member_count }}</p>
+                </div>
+            </a>
+            {% else %}
+            <div class="no-groups">
+                <p>Нет доступных групп. Добавьте бота в группу как администратора и отправьте любое сообщение.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>

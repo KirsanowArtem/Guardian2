@@ -1,0 +1,34 @@
+{
+    "groups": [
+        {
+            "id": -1002422676814,
+            "member_count": 2,
+            "name": "...2",
+            "type": "supergroup"
+        },
+        {
+            "id": -1002296200209,
+            "member_count": 3,
+            "name": "...",
+            "type": "supergroup"
+        },
+        {
+            "id": -4894076690,
+            "member_count": 3,
+            "name": "-2",
+            "type": "group"
+        },
+        {
+            "id": -4738403962,
+            "member_count": 3,
+            "name": "-1",
+            "type": "group"
+        },
+        {
+            "id": -4664990998,
+            "member_count": 3,
+            "name": ".3.",
+            "type": "group"
+        }
+    ]
+}

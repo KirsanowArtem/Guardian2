@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Управление группой - {{ group.name }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="group-header">
+            {% if group.photo %}
+            <img src="https://api.telegram.org/file/bot{{BOT_TOKEN}}/{{group.photo}}" alt="{{ group.name }}" class="group-avatar">
+            {% endif %}
+            <div>
+                <h1>{{ group.name }}</h1>
+                <p>Участников: {{ group.member_count }}</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <a href="?tab=members" class="tab {% if tab == 'members' %}active{% endif %}">Участники</a>
+            <a href="?tab=settings" class="tab {% if tab == 'settings' %}active{% endif %}">Настройки</a>
+        </div>
+
+        {% if tab == 'members' %}
+        <div class="members-list">
+            {% for member in members %}
+            <div class="member-card">
+                <div class="member-info">
+                    {% if member.photo %}
+                    <img src="https://api.telegram.org/file/bot{{BOT_TOKEN}}/{{member.photo}}" alt="Avatar" class="member-avatar">
+                    {% else %}
+                    <div class="member-avatar empty-avatar"></div>
+                    {% endif %}
+                    <div>
+                        <h3>{{ member.first_name }} {{ member.last_name }}</h3>
+                        <p>@{{ member.username or 'нет username' }}</p>
+                        <p>ID: {{ member.id }}</p>
+                        {% if member.is_muted %}
+                        <p class="muted-status">Замучен</p>
+                        {% endif %}
+                        {% if member.is_banned %}
+                        <p class="banned-status">Забанен</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="member-actions">
+                    {% if member.is_muted %}
+                    <button class="btn unmute-user" data-user-id="{{ member.id }}">Размутить</button>
+                    {% else %}
+                    <button class="btn mute-user" data-user-id="{{ member.id }}">Замутить</button>
+                    {% endif %}
+
+                    {% if member.is_banned %}
+                    <button class="btn unban-user" data-user-id="{{ member.id }}">Разбанить</button>
+                    {% else %}
+                    <button class="btn ban-user" data-user-id="{{ member.id }}">Забанить</button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="mute-modal" class="modal">
+            <div class="modal-content">
+                <h3>Мут пользователя</h3>
+                <input type="text" id="mute-reason" placeholder="Причина" class="modal-input">
+                <select id="mute-duration" class="modal-input">
+                    <option value="3600">1 час</option>
+                    <option value="86400">1 день</option>
+                    <option value="604800">1 неделя</option>
+                    <option value="2592000">1 месяц</option>
+                </select>
+                <div class="modal-buttons">
+                    <button id="confirm-mute" class="btn">Применить</button>
+                    <button id="cancel-mute" class="btn btn-cancel">Отмена</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="ban-modal" class="modal">
+            <div class="modal-content">
+                <h3>Бан пользователя</h3>
+                <input type="text" id="ban-reason" placeholder="Причина" class="modal-input">
+                <div class="modal-buttons">
+                    <button id="confirm-ban" class="btn">Забанить</button>
+                    <button id="cancel-ban" class="btn btn-cancel">Отмена</button>
+                </div>
+            </div>
+        </div>
+
+        {% elif tab == 'settings' %}
+        <div class="settings-content">
+            <div class="settings-card">
+                <h3>Настройки группы</h3>
+                <p>Данный раздел находится в разработке и будет доступен в ближайшее время.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="/static/js/group_management.js"></script>
+</body>
+</html>
